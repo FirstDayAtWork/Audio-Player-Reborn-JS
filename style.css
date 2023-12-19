@@ -49,7 +49,7 @@ body{
 
 
  .fa-solid:active{
-    color: #f91155;
+    color: #d81111;
     
 }
 
@@ -67,6 +67,10 @@ body{
     font-size: 45px;
     font-weight: 600;
     cursor: pointer;
+}
+
+.btns-style:focus{
+    background-color: #cecece;
 }
 
 #play-btn{
