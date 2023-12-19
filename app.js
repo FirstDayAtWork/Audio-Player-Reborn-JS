@@ -14,6 +14,8 @@ const shufflebtn = document.querySelector('#shuffle-btn');
 const loopButton = document.querySelector('#loop-btn');
 const currtrackVolume = document.querySelector('#curr-track-volume');
 const currtrackText = document.querySelector('#curr-track-volume-nums');
+const volumeButton = document.querySelector('#volume-btn');
+const volumeIcon = document.querySelector('#vol-icon');
 
 playButton.addEventListener('click', songList);
 
@@ -32,12 +34,34 @@ const getDataFromJsonFile = async () => {
 }
 
 
+
 // cur audio volume 
 currtrackVolume.addEventListener('input', () => {
+
+    if(currAudioSrc.muted = true){
+        volumeIcon.classList.remove('fa-volume-xmark')
+        volumeIcon.classList.add('fa-volume-high')
+        currAudioSrc.muted = false
+    }
+
     currAudioSrc.volume = currtrackVolume.value
     currtrackText.innerText = `${Math.floor(currAudioSrc.volume * 100)}%`
 })
 
+
+// vol -btn
+volumeButton.addEventListener('click', () => {
+    if(volumeIcon.classList.contains('fa-volume-high')){
+        volumeIcon.classList.remove('fa-volume-high')
+        volumeIcon.classList.add('fa-volume-xmark')
+        currAudioSrc.muted = true
+
+    } else {
+        volumeIcon.classList.remove('fa-volume-xmark')
+        volumeIcon.classList.add('fa-volume-high')
+        currAudioSrc.muted = false
+    } 
+})
 
 async function nextBtnLogic(){
     let i = 0;
