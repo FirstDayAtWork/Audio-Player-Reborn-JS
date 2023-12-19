@@ -12,6 +12,8 @@ const prevTrackButton = document.querySelector('#left-btn');
 const nextTrackButton = document.querySelector('#right-btn');
 const shufflebtn = document.querySelector('#shuffle-btn');
 const loopButton = document.querySelector('#loop-btn');
+const currtrackVolume = document.querySelector('#curr-track-volume');
+const currtrackText = document.querySelector('#curr-track-volume-nums');
 
 playButton.addEventListener('click', songList);
 
@@ -30,11 +32,12 @@ const getDataFromJsonFile = async () => {
 }
 
 
-// async function prevBtnLogic(){
-//     let i = 0;
-//     const songs = await getDataFromJsonFile();
-   
-// }
+// cur audio volume 
+currtrackVolume.addEventListener('input', () => {
+    currAudioSrc.volume = currtrackVolume.value
+    currtrackText.innerText = `${Math.floor(currAudioSrc.volume * 100)}%`
+})
+
 
 async function nextBtnLogic(){
     let i = 0;

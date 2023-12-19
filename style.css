@@ -117,6 +117,59 @@ body{
     color: #f91155;
   } */
 
+  .audio-slider-container{
+    /* display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center; */
+  }
+
+.audio-slider-container-box{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    min-width: 360px;
+}
+
+  .volume-img-container{
+    /* align-self: flex-start; */
+    
+  }
+
+  #volume-btn{
+    /* padding-right: 10px; */
+    font-size: 30px;
+  }
+
+  #curr-track-volume{
+    appearance: none;
+    min-width: 230px;
+    height: 10px;
+    border-radius: 15px;
+    background-color: #ececec;
+  }
+
+  #curr-track-volume:active {
+    background-color: #dadada;
+  }
+
+  #curr-track-volume::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    max-width: 15px;
+    height: 15px;
+    background: #1c1c1c;
+    border-radius: 12px;
+    cursor: pointer;
+  }
+
+  #curr-track-volume-nums{
+    font-size: 17px;
+    padding: 0 10px;
+  }
+
+
+  /* tracklist */
 .tracklist-container{
     min-width: 360px;
     border: 1px solid black;
