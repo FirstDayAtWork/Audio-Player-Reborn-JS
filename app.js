@@ -16,6 +16,7 @@ const currtrackVolume = document.querySelector('#curr-track-volume');
 const currtrackText = document.querySelector('#curr-track-volume-nums');
 const volumeButton = document.querySelector('#volume-btn');
 const volumeIcon = document.querySelector('#vol-icon');
+const playBtnImg = document.querySelector('#play-btn-img');
 
 playButton.addEventListener('click', songList);
 
@@ -175,6 +176,7 @@ async function songList (indx, songs){
     songs = await songs ?? await getDataFromJsonFile();
     indx = 0 | indx;
 
+
     if(indx >= songs.length){
         clearTimeout(songTimer);
         indx = 0;
@@ -185,6 +187,8 @@ async function songList (indx, songs){
         function nextSong(){
        
             if(indx >= songs.length){
+                playBtnImg.classList.remove('fa-pause')
+                playBtnImg.classList.add('fa-play')
                 clearTimeout(songTimer);
                 currAudioSrc.load();
                 currAudioSrc.currentTime = 0;
@@ -194,34 +198,90 @@ async function songList (indx, songs){
                 console.log('1')
                 return
             } else {
-                currSongImg.src = songs[indx].image;
-                currAudioSrc.src = songs[indx].title;
-                currSongTitle.innerText = songs[indx].title
-                            .replace('things/music/', '')
-                            .replace('.mp3', '');
-                currAudioSrc.currentTime = 0;
-                currAudioSrc.play();
+                if(playBtnImg.classList.contains('fa-play') && currAudioSrc.currentTime > 1){
+                    playBtnImg.classList.remove('fa-play')
+                    playBtnImg.classList.add('fa-pause');
+                    // currSongImg.src = songs[indx].image;
+                    // currAudioSrc.src = songs[indx].title;
+                    // currSongTitle.innerText = songs[indx].title
+                                // .replace('things/music/', '')
+                                // .replace('.mp3', '');
+                    // currAudioSrc.currentTime = 0;
+                    currAudioSrc.play();
+                    
+                 songTimer = setInterval(() => {
+                        trackStartTime(currAudioSrc);
+                        console.log('timer')
+                    }, 100);
+            
+                    currTrackSlider.addEventListener('input', () => {
+                        currAudioSrc.currentTime = Math.floor(currTrackSlider.value);
+                        trackStartTime(currAudioSrc)
+                    })
+            
+                    indx++
+                    console.log('first')
+                } else if(playBtnImg.classList.contains('fa-pause') && currAudioSrc.currentTime > 0){
+                    if(currAudioSrc.ended === true){
+                        clearTimeout(songTimer)
+                        playBtnImg.classList.remove('fa-play')
+                    playBtnImg.classList.add('fa-pause');
+                    currSongImg.src = songs[indx].image;
+                    currAudioSrc.src = songs[indx].title;
+                    currSongTitle.innerText = songs[indx].title
+                                .replace('things/music/', '')
+                                .replace('.mp3', '');
+                                currAudioSrc.load()
+                    currAudioSrc.currentTime = 0;
+                    currAudioSrc.play();
+                    
+                 songTimer = setInterval(() => {
+                        trackStartTime(currAudioSrc);
+                        console.log('timer')
+                    }, 100);
+            
+                    currTrackSlider.addEventListener('input', () => {
+                        currAudioSrc.currentTime = Math.floor(currTrackSlider.value);
+                        trackStartTime(currAudioSrc)
+                    })
+            
+                    indx++
+                    console.log('ended')
+                    } else {
+                        playBtnImg.classList.remove('fa-pause')
+                        playBtnImg.classList.add('fa-play')
+                        currAudioSrc.pause();
+                        clearTimeout(songTimer);
+                        console.log('second')
+                    }
+                    
+                } else if(playBtnImg.classList.contains('fa-play') && currAudioSrc.currentTime <= 1){
+                    playBtnImg.classList.remove('fa-play')
+                    playBtnImg.classList.add('fa-pause');
+                    currSongImg.src = songs[indx].image;
+                    currAudioSrc.src = songs[indx].title;
+                    currSongTitle.innerText = songs[indx].title
+                                .replace('things/music/', '')
+                                .replace('.mp3', '');
+                    currAudioSrc.currentTime = 0;
+                    currAudioSrc.play();
+                    
+                 songTimer = setInterval(() => {
+                        trackStartTime(currAudioSrc);
+                        console.log('timer')
+                    }, 100);
+            
+                    currTrackSlider.addEventListener('input', () => {
+                        currAudioSrc.currentTime = Math.floor(currTrackSlider.value);
+                        trackStartTime(currAudioSrc)
+                    })
+            
+                    indx++
+                    console.log('third')
+                }
+
                 
-             songTimer = setInterval(() => {
-                    trackStartTime(currAudioSrc);
-                    console.log('timer')
-                }, 100);
-        
-                currTrackSlider.addEventListener('input', () => {
-                    currAudioSrc.currentTime = Math.floor(currTrackSlider.value);
-                    trackStartTime(currAudioSrc)
-                })
-        
-                indx++
             }
-            
-    
-            // if(indx > songs.length){
-            //     currAudioSrc.src = songs[indx++].title;
-            //     currAudioSrc.currentTime = 0;
-            //     currAudioSrc.play();
-            // }
-            
             
         }
     }  
