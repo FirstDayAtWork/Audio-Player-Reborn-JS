@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/8958f990b7.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="player-container">
+        <div class="cur-song-container">
+            <div class="img-cur-song-img-container">
+                <img id="cur-track-img" src="" alt="">
+            </div>
+
+            <span id="cur-song-title"></span>
+            <audio id="cur-song-src" src=""></audio>
+        </div>
+        <div class="player-buttons">
+            <button class="btns-style" id="shuffle-btn">
+                <i class="fa-solid fa-shuffle"></i>
+            </button>
+            <button class="btns-style" id="left-btn">
+                <i class="fa-solid fa-backward-fast"></i>
+                </button>
+            <button class="btns-style playIt" id="play-btn">
+                <i class="fa-solid fa-play"></i>
+            </button>
+            <button class="btns-style" id="right-btn">
+                <i class="fa-solid fa-forward-fast"></i>
+            </button>
+            <button class="btns-style" id="loop-btn">
+                <i class="fa-solid fa-repeat"></i>
+            </button>
+        </div>
+
+        <div class="audio-time">
+            <label for="track-time-slider" id="track-cur-time">00:00</label>
+            <input type="range" id="track-time-slider" name="track-time" min="0" max="0">
+            <label for="track-time-slider" id="full-track-time">00:00</label>
+        </div>
+
+        <div class="tracklist-container">
+            <div class="tracklist-music">
+
+            </div>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
