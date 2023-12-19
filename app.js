@@ -11,9 +11,9 @@ const currTrackFullTime = document.querySelector('#full-track-time');
 const prevTrackButton = document.querySelector('#left-btn');
 const nextTrackButton = document.querySelector('#right-btn');
 const shufflebtn = document.querySelector('#shuffle-btn');
+const loopButton = document.querySelector('#loop-btn');
 
 playButton.addEventListener('click', songList);
-
 
 
 // Get data from JSON file
@@ -40,6 +40,7 @@ async function nextBtnLogic(){
     let i = 0;
     const songs = await getDataFromJsonFile();
 
+    // shuffle btn
     shufflebtn.addEventListener('click', () => {
         for (let i = songs.length - 1; i > 0; i--) {
             let j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
@@ -52,7 +53,7 @@ async function nextBtnLogic(){
           console.log(songs)
     })
 
-
+    // prev track btn
     prevTrackButton.addEventListener('click', () => {
         if(i <= songs.indexOf(songs[0])){
             i = songs.length-1;
@@ -65,6 +66,7 @@ async function nextBtnLogic(){
         
     })
 
+    // next track btn
     nextTrackButton.addEventListener('click', () => {
         if(i >= songs.length-1){
             i = 0;
@@ -75,11 +77,23 @@ async function nextBtnLogic(){
         }
         
     })
+
+// Loop btn
+    loopButton.addEventListener('click', () => {
+        if(currAudioSrc.loop === false){
+            currAudioSrc.loop = true;
+            loopButton.style.color = '#d81111'
+        } else {
+            currAudioSrc.loop = false;
+            loopButton.style.color = '#1c1c1c'
+        }
+        
+    })
 }
 
 nextBtnLogic();
 
-
+// show curr track timer
 function trackStartTime (arr) {
     // console.log('hello')
     let seconds = (arr.currentTime);
