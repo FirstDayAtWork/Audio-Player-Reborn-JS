@@ -38,14 +38,25 @@ const getDataFromJsonFile = async () => {
 // cur audio volume 
 currtrackVolume.addEventListener('input', () => {
 
-    if(currAudioSrc.muted = true){
-        volumeIcon.classList.remove('fa-volume-xmark')
+    if(currAudioSrc.muted === true){
+        volumeIcon.classList.remove('fa-volume-xmark');
+        volumeIcon.classList.add('fa-volume-high');
+        currAudioSrc.muted = false;
+    };
+    
+    
+     if(Math.floor(currAudioSrc.volume * 100) < 50){
+        volumeIcon.classList.remove('fa-volume-high')
+        volumeIcon.classList.add('fa-volume-low')
+    } else if(Math.floor(currAudioSrc.volume * 100) >= 50){
+        volumeIcon.classList.remove('fa-volume-low')
         volumeIcon.classList.add('fa-volume-high')
-        currAudioSrc.muted = false
     }
+
 
     currAudioSrc.volume = currtrackVolume.value
     currtrackText.innerText = `${Math.floor(currAudioSrc.volume * 100)}%`
+   
 })
 
 
@@ -56,11 +67,26 @@ volumeButton.addEventListener('click', () => {
         volumeIcon.classList.add('fa-volume-xmark')
         currAudioSrc.muted = true
 
-    } else {
+    } else if(volumeIcon.classList.contains('fa-volume-low')){
+        volumeIcon.classList.remove('fa-volume-low')
+        volumeIcon.classList.add('fa-volume-xmark')
+        currAudioSrc.muted = true
+
+    }else if(volumeIcon.classList.contains('fa-volume-xmark')
+             && +currtrackText.innerText.replace('%', '') < 50){
+        volumeIcon.classList.remove('fa-volume-xmark')
+        volumeIcon.classList.add('fa-volume-low')
+        currAudioSrc.muted = false
+    } else if(volumeIcon.classList.contains('fa-volume-xmark')
+             && +currtrackText.innerText.replace('%', '') >= 50){
         volumeIcon.classList.remove('fa-volume-xmark')
         volumeIcon.classList.add('fa-volume-high')
         currAudioSrc.muted = false
-    } 
+    };
+    
+
+
+    
 })
 
 async function nextBtnLogic(){
@@ -76,8 +102,7 @@ async function nextBtnLogic(){
             // we use "destructuring assignment" syntax to achieve that
             [songs[i], songs[j]] = [songs[j], songs[i]];
           }
-          console.log('shuffle');
-          console.log(songs)
+
     })
 
     // prev track btn
@@ -159,7 +184,6 @@ async function songList (indx, songs){
     } else {
         function nextSong(){
        
-            console.log(indx)
             if(indx >= songs.length){
                 clearTimeout(songTimer);
                 currAudioSrc.load();
