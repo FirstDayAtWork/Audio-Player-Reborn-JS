@@ -110,13 +110,14 @@ async function nextBtnLogic(){
 
     // prev track btn
     prevTrackButton.addEventListener('click', () => {
+        let currTrackState = 'left'
         if(i <= songs.indexOf(songs[0])){
             i = songs.length-1;
-            songList(i, songs)
+            songList(i, songs, currTrackState)
         } else {
             i--
             console.log('preview')
-            songList(i, songs)
+            songList(i, songs, currTrackState)
         }
         
     })
@@ -131,7 +132,7 @@ async function nextBtnLogic(){
         let currTrackState = 'right'
         if(i >= songs.length-1){
             i = 0;
-            songList(i, songs)
+            songList(i, songs, currTrackState)
         } else {
             i++
             songList(i, songs, currTrackState)
@@ -230,7 +231,31 @@ async function songList (indx, songs, currTrackState){
             
                     indx++
                     console.log(currTrackState)
-                    } 
+                    } else if(currTrackState === 'left'){
+                        clearTimeout(songTimer)
+                        // playBtnImg.classList.remove('fa-play')
+                        // playBtnImg.classList.add('fa-pause');
+                        currSongImg.src = songs[indx].image;
+                        currAudioSrc.src = songs[indx].title;
+                        currSongTitle.innerText = songs[indx].title
+                                    .replace('things/music/', '')
+                                    .replace('.mp3', '');
+                        currAudioSrc.currentTime = 0;
+                        currAudioSrc.play();
+                        
+                     songTimer = setInterval(() => {
+                            trackStartTime(currAudioSrc);
+                            console.log('timer')
+                        }, 100);
+                
+                        currTrackSlider.addEventListener('input', () => {
+                            currAudioSrc.currentTime = Math.floor(currTrackSlider.value);
+                            trackStartTime(currAudioSrc)
+                        })
+                
+                        indx--
+                        console.log(currTrackState)
+                    }
                     clearTimeout(songTimer)
                     playBtnImg.classList.remove('fa-play')
                     playBtnImg.classList.add('fa-pause');
@@ -301,6 +326,28 @@ async function songList (indx, songs, currTrackState){
                         })
                 
                         indx++
+                        console.log(currTrackState)
+                    } else if(currTrackState === 'left'){
+                        clearTimeout(songTimer);
+                        currSongImg.src = songs[indx].image;
+                        currAudioSrc.src = songs[indx].title;
+                        currSongTitle.innerText = songs[indx].title
+                                    .replace('things/music/', '')
+                                    .replace('.mp3', '');
+                        currAudioSrc.currentTime = 0;
+                        currAudioSrc.play();
+                        
+                     songTimer = setInterval(() => {
+                            trackStartTime(currAudioSrc);
+                            console.log('timer')
+                        }, 100);
+                
+                        currTrackSlider.addEventListener('input', () => {
+                            currAudioSrc.currentTime = Math.floor(currTrackSlider.value);
+                            trackStartTime(currAudioSrc)
+                        })
+                
+                        indx--
                         console.log(currTrackState)
                     } else {
                         playBtnImg.classList.remove('fa-pause')
