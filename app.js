@@ -52,7 +52,7 @@ currtrackVolume.addEventListener('input', () => {
     } else if(Math.floor(currAudioSrc.volume * 100) >= 50){
         volumeIcon.classList.remove('fa-volume-low')
         volumeIcon.classList.add('fa-volume-high')
-    }
+    };
 
 
     currAudioSrc.volume = currtrackVolume.value

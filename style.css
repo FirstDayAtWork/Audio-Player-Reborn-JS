@@ -94,6 +94,7 @@ body{
 
 
 #track-time-slider {
+    -webkit-appearance: none;
     appearance: none;
     min-width: 230px;
     height: 10px;
@@ -107,6 +108,7 @@ body{
 
   #track-time-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
+    appearance: none;
     max-width: 15px;
     height: 40px;
     background: #1c1c1c;
@@ -145,6 +147,7 @@ body{
   }
 
   #curr-track-volume{
+    -webkit-appearance: none;
     appearance: none;
     min-width: 230px;
     height: 10px;
