@@ -18,7 +18,7 @@ const volumeButton = document.querySelector('#volume-btn');
 const volumeIcon = document.querySelector('#vol-icon');
 const playBtnImg = document.querySelector('#play-btn-img');
 
-playButton.addEventListener('click', songList);
+// playButton.addEventListener('click', songList);
 
 
 // Get data from JSON file
@@ -94,6 +94,8 @@ async function nextBtnLogic(){
     let i = 0;
     const songs = await getDataFromJsonFile();
 
+    
+
     // shuffle btn
     shufflebtn.addEventListener('click', () => {
         for (let i = songs.length - 1; i > 0; i--) {
@@ -119,14 +121,20 @@ async function nextBtnLogic(){
         
     })
 
+    // play btn
+    playButton.addEventListener('click', () => {
+        songList(i, songs)
+    });
+
     // next track btn
     nextTrackButton.addEventListener('click', () => {
+        let currTrackState = 'right'
         if(i >= songs.length-1){
             i = 0;
             songList(i, songs)
         } else {
             i++
-            songList(i, songs)
+            songList(i, songs, currTrackState)
         }
         
     })
@@ -172,10 +180,10 @@ function trackStartTime (arr) {
 
 
 
-async function songList (indx, songs){
+async function songList (indx, songs, currTrackState){
     songs = await songs ?? await getDataFromJsonFile();
     indx = 0 | indx;
-
+    currTrackState = await currTrackState ?? ""
 
     if(indx >= songs.length){
         clearTimeout(songTimer);
@@ -185,7 +193,6 @@ async function songList (indx, songs){
         // return
     } else {
         function nextSong(){
-       
             if(indx >= songs.length){
                 playBtnImg.classList.remove('fa-pause')
                 playBtnImg.classList.add('fa-play')
@@ -198,7 +205,33 @@ async function songList (indx, songs){
                 console.log('1')
                 return
             } else {
-                if(playBtnImg.classList.contains('fa-play') && currAudioSrc.currentTime > 1){
+                if(playBtnImg.classList.contains('fa-play') && currAudioSrc.currentTime > 0){
+                    if(currTrackState === 'right'){
+                        clearTimeout(songTimer)
+                    // playBtnImg.classList.remove('fa-play')
+                    // playBtnImg.classList.add('fa-pause');
+                    currSongImg.src = songs[indx].image;
+                    currAudioSrc.src = songs[indx].title;
+                    currSongTitle.innerText = songs[indx].title
+                                .replace('things/music/', '')
+                                .replace('.mp3', '');
+                    currAudioSrc.currentTime = 0;
+                    currAudioSrc.play();
+                    
+                 songTimer = setInterval(() => {
+                        trackStartTime(currAudioSrc);
+                        console.log('timer')
+                    }, 100);
+            
+                    currTrackSlider.addEventListener('input', () => {
+                        currAudioSrc.currentTime = Math.floor(currTrackSlider.value);
+                        trackStartTime(currAudioSrc)
+                    })
+            
+                    indx++
+                    console.log(currTrackState)
+                    } 
+                    clearTimeout(songTimer)
                     playBtnImg.classList.remove('fa-play')
                     playBtnImg.classList.add('fa-pause');
                     // currSongImg.src = songs[indx].image;
@@ -247,6 +280,28 @@ async function songList (indx, songs){
             
                     indx++
                     console.log('ended')
+                    } else if(currTrackState === 'right'){
+                        clearTimeout(songTimer);
+                        currSongImg.src = songs[indx].image;
+                        currAudioSrc.src = songs[indx].title;
+                        currSongTitle.innerText = songs[indx].title
+                                    .replace('things/music/', '')
+                                    .replace('.mp3', '');
+                        currAudioSrc.currentTime = 0;
+                        currAudioSrc.play();
+                        
+                     songTimer = setInterval(() => {
+                            trackStartTime(currAudioSrc);
+                            console.log('timer')
+                        }, 100);
+                
+                        currTrackSlider.addEventListener('input', () => {
+                            currAudioSrc.currentTime = Math.floor(currTrackSlider.value);
+                            trackStartTime(currAudioSrc)
+                        })
+                
+                        indx++
+                        console.log(currTrackState)
                     } else {
                         playBtnImg.classList.remove('fa-pause')
                         playBtnImg.classList.add('fa-play')
@@ -256,6 +311,7 @@ async function songList (indx, songs){
                     }
                     
                 } else if(playBtnImg.classList.contains('fa-play') && currAudioSrc.currentTime <= 1){
+                    
                     playBtnImg.classList.remove('fa-play')
                     playBtnImg.classList.add('fa-pause');
                     currSongImg.src = songs[indx].image;
