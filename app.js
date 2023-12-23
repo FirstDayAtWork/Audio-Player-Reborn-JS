@@ -436,7 +436,7 @@ const dispaySongs = async () => {
     })
     
     // if()
-    // console.log(songs)
+    console.log(songs)
 }
 
-// dispaySongs()
+dispaySongs()

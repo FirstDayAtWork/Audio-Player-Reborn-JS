@@ -78,6 +78,11 @@ body{
 #play-btn{
     padding: 5px 20px;
     font-size: 50px;
+    
+}
+
+#play-btn-img{
+  min-width: 37.5px;
 }
 
 /* .fa-play{
@@ -146,6 +151,11 @@ body{
     font-size: 30px;
   }
 
+  #vol-icon{
+    min-width: 37.500px;
+    max-height: 30px;
+  }
+
   #curr-track-volume{
     -webkit-appearance: none;
     appearance: none;
@@ -169,14 +179,16 @@ body{
   }
 
   #curr-track-volume-nums{
+    min-width: 43px;
     font-size: 17px;
-    padding: 0 10px;
+    padding: 0 7px;
   }
 
 
   /* tracklist */
 .tracklist-container{
     min-width: 360px;
+    margin-top: 10px;
     /* border: 1px solid black; */
 }
 
