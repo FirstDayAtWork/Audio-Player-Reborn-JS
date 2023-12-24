@@ -1,4 +1,7 @@
 body{
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
     font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -76,12 +79,14 @@ body{
 }
 
 #play-btn{
+    z-index: 2;
     padding: 5px 20px;
     font-size: 50px;
     
 }
 
 #play-btn-img{
+  text-align: center;
   min-width: 37.5px;
 }
 
@@ -199,6 +204,10 @@ body{
     
 }
 
+.selected-playlist-song{
+  cursor: pointer;
+}
+
 .song-list-id{
     text-align: center;
     
@@ -206,6 +215,7 @@ body{
 
 .song-list-img{
     text-align: center;
+    z-index: 0;
 }
 
 th, td{

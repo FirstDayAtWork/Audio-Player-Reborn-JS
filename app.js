@@ -1,4 +1,3 @@
-
 const playButton = document.querySelector('#play-btn');
 const tracklistMusic = document.querySelector('.tracklist-music');
 const currSongContainer = document.querySelector('.cur-song-container');
@@ -17,6 +16,7 @@ const currtrackText = document.querySelector('#curr-track-volume-nums');
 const volumeButton = document.querySelector('#volume-btn');
 const volumeIcon = document.querySelector('#vol-icon');
 const playBtnImg = document.querySelector('#play-btn-img');
+
 
 // playButton.addEventListener('click', songList);
 
@@ -181,7 +181,7 @@ function trackStartTime (arr) {
 
 
 
-async function songList (indx, songs, currTrackState){
+async function songList (indx, songs, currTrackState, songName){
     songs = await songs ?? await getDataFromJsonFile();
     indx = 0 | indx;
     currTrackState = await currTrackState ?? ""
@@ -255,30 +255,71 @@ async function songList (indx, songs, currTrackState){
                 
                         indx--
                         console.log(currTrackState)
+                    } else if(currTrackState === 'playlist'){
+                        if(currAudioSrc.src === songName){
+                            clearTimeout(songTimer)
+                        playBtnImg.classList.remove('fa-play')
+                        playBtnImg.classList.add('fa-pause');
+                        currAudioSrc.play();
+                        
+                     songTimer = setInterval(() => {
+                            trackStartTime(currAudioSrc);
+                            console.log('timer')
+                        }, 100);
+                
+                        currTrackSlider.addEventListener('input', () => {
+                            currAudioSrc.currentTime = Math.floor(currTrackSlider.value);
+                            trackStartTime(currAudioSrc)
+                        })
+                        } else {
+                            clearTimeout(songTimer)
+                            playBtnImg.classList.remove('fa-play')
+                            playBtnImg.classList.add('fa-pause');
+                            currSongImg.src = songs[indx].image;
+                            currAudioSrc.src = songs[indx].title;
+                            currSongTitle.innerText = songs[indx].title
+                                    .replace('things/music/', '')
+                                    .replace('.mp3', '');
+                            currAudioSrc.currentTime = 0;
+                            currAudioSrc.play();
+                        
+                     songTimer = setInterval(() => {
+                            trackStartTime(currAudioSrc);
+                            console.log('timer')
+                        }, 100);
+                
+                        currTrackSlider.addEventListener('input', () => {
+                            currAudioSrc.currentTime = Math.floor(currTrackSlider.value);
+                            trackStartTime(currAudioSrc)
+                        })
+                        console.log('playlist state')
+                        }
+                    } else {
+                        clearTimeout(songTimer)
+                        playBtnImg.classList.remove('fa-play')
+                        playBtnImg.classList.add('fa-pause');
+                        // currSongImg.src = songs[indx].image;
+                        // currAudioSrc.src = songs[indx].title;
+                        // currSongTitle.innerText = songs[indx].title
+                                    // .replace('things/music/', '')
+                                    // .replace('.mp3', '');
+                        // currAudioSrc.currentTime = 0;
+                        currAudioSrc.play();
+                        
+                     songTimer = setInterval(() => {
+                            trackStartTime(currAudioSrc);
+                            console.log('timer')
+                        }, 100);
+                
+                        currTrackSlider.addEventListener('input', () => {
+                            currAudioSrc.currentTime = Math.floor(currTrackSlider.value);
+                            trackStartTime(currAudioSrc)
+                        })
+                
+                        indx++
+                        console.log('first')
                     }
-                    clearTimeout(songTimer)
-                    playBtnImg.classList.remove('fa-play')
-                    playBtnImg.classList.add('fa-pause');
-                    // currSongImg.src = songs[indx].image;
-                    // currAudioSrc.src = songs[indx].title;
-                    // currSongTitle.innerText = songs[indx].title
-                                // .replace('things/music/', '')
-                                // .replace('.mp3', '');
-                    // currAudioSrc.currentTime = 0;
-                    currAudioSrc.play();
                     
-                 songTimer = setInterval(() => {
-                        trackStartTime(currAudioSrc);
-                        console.log('timer')
-                    }, 100);
-            
-                    currTrackSlider.addEventListener('input', () => {
-                        currAudioSrc.currentTime = Math.floor(currTrackSlider.value);
-                        trackStartTime(currAudioSrc)
-                    })
-            
-                    indx++
-                    console.log('first')
                 } else if(playBtnImg.classList.contains('fa-pause') && currAudioSrc.currentTime > 0){
                     if(currAudioSrc.ended === true){
                         clearTimeout(songTimer)
@@ -349,7 +390,36 @@ async function songList (indx, songs, currTrackState){
                 
                         indx--
                         console.log(currTrackState)
-                    } else {
+                    } else if(currTrackState === 'playlist'){
+                        if(currAudioSrc.src === songName){
+                            playBtnImg.classList.remove('fa-pause')
+                            playBtnImg.classList.add('fa-play')
+                            currAudioSrc.pause();
+                            clearTimeout(songTimer);
+                            console.log('playlist pauseee')
+                        } else {
+                            clearTimeout(songTimer);
+                            currSongImg.src = songs[indx].image;
+                            currAudioSrc.src = songs[indx].title;
+                            currSongTitle.innerText = songs[indx].title
+                                        .replace('things/music/', '')
+                                        .replace('.mp3', '');
+                            currAudioSrc.currentTime = 0;
+                            currAudioSrc.play();
+                            
+                         songTimer = setInterval(() => {
+                                trackStartTime(currAudioSrc);
+                                console.log('timer')
+                            }, 100);
+                    
+                            currTrackSlider.addEventListener('input', () => {
+                                currAudioSrc.currentTime = Math.floor(currTrackSlider.value);
+                                trackStartTime(currAudioSrc)
+                            })
+                            console.log('playlist 2')
+                        }
+                        
+                    } else{
                         playBtnImg.classList.remove('fa-pause')
                         playBtnImg.classList.add('fa-play')
                         currAudioSrc.pause();
@@ -408,9 +478,10 @@ const dispaySongs = async () => {
     const songTable = document.createElement('table');
     songTable.classList = 'song-table';
     tracklistMusic.appendChild(songTable);
+    let inc = 0;
+    let arr = [];
     songTable.innerHTML = `
     <tr>
-    <th>id</th>
     <th>Cover</th>
     <th>Title</th>
   </tr>
@@ -425,18 +496,32 @@ const dispaySongs = async () => {
             
         })
         songTable.innerHTML += `
-        <tr>
-        <td class="song-list-id">${el.id}</td>
-        <td class="song-list-img"><img  src="${el.image}" width="40" height="40"></img></td>
-        <td>${el.title.replace('things/music/', '').replace('.mp3', '')}</td>
+        <tr class="selected-playlist-song">
+        <td class="song-list-img"><img  src="${el.image}" width="40" height="40">
+        <td>${el.title.replace('things/music/', '').replace(/.mp3|.wav/g, '')}</td>
         <td id="show-audio"><audio src="${el.title}"></audio></td>
         </tr>
         `
-        // console.log(el.audio)
     })
+    const selectedPlaylistSong = document.querySelectorAll('.selected-playlist-song');
     
+    selectedPlaylistSong.forEach(track => {
+        arr.push(track)
+        // find cur song in playlist on click
+        track.addEventListener('click', () => {
+            let currTrackState = 'playlist'
+            let indx = arr.findIndex(s => s === track);
+            let songName = selectedPlaylistSong[arr.findIndex(s => s === track)].childNodes[4].firstChild.src
+            songList(indx, songs, currTrackState, songName)
+        })
+    })
+
+    // <th>id</th>
+    
+    // <td class="song-list-id">${el.id}</td>
+    //     <td class="song-list-img"><img  src="${el.image}" width="40" height="40"></img></td>
     // if()
-    console.log(songs)
+    console.log()
 }
 
 dispaySongs()
