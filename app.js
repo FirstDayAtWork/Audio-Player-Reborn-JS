@@ -90,8 +90,9 @@ volumeButton.addEventListener('click', () => {
     
 })
 
-async function nextBtnLogic(){
-    let i = 0;
+async function nextBtnLogic(i){
+    i = await i ?? 0;
+    console.log(i)
     const songs = await getDataFromJsonFile();
 
     
@@ -116,7 +117,6 @@ async function nextBtnLogic(){
             songList(i, songs, currTrackState)
         } else {
             i--
-            console.log('preview')
             songList(i, songs, currTrackState)
         }
         
@@ -221,7 +221,7 @@ async function songList (indx, songs, currTrackState, songName){
                     
                  songTimer = setInterval(() => {
                         trackStartTime(currAudioSrc);
-                        console.log('timer')
+                        // console.log('timer')
                     }, 100);
             
                     currTrackSlider.addEventListener('input', () => {
@@ -245,7 +245,7 @@ async function songList (indx, songs, currTrackState, songName){
                         
                      songTimer = setInterval(() => {
                             trackStartTime(currAudioSrc);
-                            console.log('timer')
+                            // console.log('timer')
                         }, 100);
                 
                         currTrackSlider.addEventListener('input', () => {
@@ -264,7 +264,7 @@ async function songList (indx, songs, currTrackState, songName){
                         
                      songTimer = setInterval(() => {
                             trackStartTime(currAudioSrc);
-                            console.log('timer')
+                            // console.log('timer')
                         }, 100);
                 
                         currTrackSlider.addEventListener('input', () => {
@@ -285,7 +285,7 @@ async function songList (indx, songs, currTrackState, songName){
                         
                      songTimer = setInterval(() => {
                             trackStartTime(currAudioSrc);
-                            console.log('timer')
+                            // console.log('timer')
                         }, 100);
                 
                         currTrackSlider.addEventListener('input', () => {
@@ -308,7 +308,7 @@ async function songList (indx, songs, currTrackState, songName){
                         
                      songTimer = setInterval(() => {
                             trackStartTime(currAudioSrc);
-                            console.log('timer')
+                            // console.log('timer')
                         }, 100);
                 
                         currTrackSlider.addEventListener('input', () => {
@@ -336,7 +336,7 @@ async function songList (indx, songs, currTrackState, songName){
                     
                  songTimer = setInterval(() => {
                         trackStartTime(currAudioSrc);
-                        console.log('timer')
+                        // console.log('timer')
                     }, 100);
             
                     currTrackSlider.addEventListener('input', () => {
@@ -358,7 +358,7 @@ async function songList (indx, songs, currTrackState, songName){
                         
                      songTimer = setInterval(() => {
                             trackStartTime(currAudioSrc);
-                            console.log('timer')
+                            // console.log('timer')
                         }, 100);
                 
                         currTrackSlider.addEventListener('input', () => {
@@ -380,7 +380,7 @@ async function songList (indx, songs, currTrackState, songName){
                         
                      songTimer = setInterval(() => {
                             trackStartTime(currAudioSrc);
-                            console.log('timer')
+                            // console.log('timer')
                         }, 100);
                 
                         currTrackSlider.addEventListener('input', () => {
@@ -409,13 +409,16 @@ async function songList (indx, songs, currTrackState, songName){
                             
                          songTimer = setInterval(() => {
                                 trackStartTime(currAudioSrc);
-                                console.log('timer')
+                                // console.log('timer')
                             }, 100);
                     
                             currTrackSlider.addEventListener('input', () => {
                                 currAudioSrc.currentTime = Math.floor(currTrackSlider.value);
                                 trackStartTime(currAudioSrc)
                             })
+
+                           
+                            // indx++
                             console.log('playlist 2')
                         }
                         
@@ -441,7 +444,7 @@ async function songList (indx, songs, currTrackState, songName){
                     
                  songTimer = setInterval(() => {
                         trackStartTime(currAudioSrc);
-                        console.log('timer')
+                        // console.log('timer')
                     }, 100);
             
                     currTrackSlider.addEventListener('input', () => {
@@ -489,12 +492,12 @@ const dispaySongs = async () => {
     songs.forEach(el => {
         el.audio = new Audio(`${el.title}`);
         
-        el.audio.addEventListener('ended', () => {
-            if(el.audio.ended){
-                el.audio[el.indexOf(el+1)].play()
-            }
+        // el.audio.addEventListener('ended', () => {
+        //     if(el.audio.ended){
+        //         el.audio[el.indexOf(el+1)].play()
+        //     }
             
-        })
+        // })
         songTable.innerHTML += `
         <tr class="selected-playlist-song">
         <td class="song-list-img"><img  src="${el.image}" width="40" height="40">
